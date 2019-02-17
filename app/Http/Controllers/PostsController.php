@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use BD; // PERMITE A UTILIZAÇÂO DE QUERYS SQL COMUNS
 
 class PostsController extends Controller
 {
@@ -15,7 +16,11 @@ class PostsController extends Controller
     public function index()
     {
         // Post::all(); = select * from ...
-        $posts = Post::all();
+        // $posts = Post::all();
+        // $posts = DB::select('SELECT * FROM posts');
+        // $posts = Post::orderBy('posts_title', 'desc')->take(1)->get();
+        // $posts = Post::orderBy('posts_title', 'desc')->get();
+        $posts = Post::orderBy('posts_title', 'desc')->paginate(5);
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -48,7 +53,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        // $post = Post::where('posts_title', 'Post Two')->get();
+        $post = Post::find($id);
+        return view('posts.show')->with('post', $post);
     }
 
     /**
