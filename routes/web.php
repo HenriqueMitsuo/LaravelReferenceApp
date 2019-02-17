@@ -23,10 +23,9 @@
 //     return view('welcome');
 // });
 
+//MAIN ROUTES
 Route::get('/', 'PagesController@index');
-
 Route::get('/about', 'PagesController@about');
-
 Route::get('/services', 'PagesController@services');
-
-
+//CRUD ROUTES - POSTS
+Route::resource('posts', 'PostsController');
