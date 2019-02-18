@@ -7,9 +7,15 @@
         <title>{{config('app.name', 'LaravelReference')}}</title>
     </head>
     <body>
-        @include('inc/navbar')
+        @include('inc.navbar')
         <div class="container">
+            @include('inc.messages')
             @yield('content')
         </div>
+
+        <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace( 'article-ckeditor' );
+        </script>
     </body>
 </html>

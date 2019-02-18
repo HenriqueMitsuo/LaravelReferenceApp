@@ -20,7 +20,7 @@ class PostsController extends Controller
         // $posts = DB::select('SELECT * FROM posts');
         // $posts = Post::orderBy('posts_title', 'desc')->take(1)->get();
         // $posts = Post::orderBy('posts_title', 'desc')->get();
-        $posts = Post::orderBy('posts_title', 'desc')->paginate(5);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -31,7 +31,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -42,7 +42,19 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //CRIA REGRAS PARA A VALIDAÇÂO
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $post = new Post;
+        // INSERE NO BANCO USANDO O TINKER
+        $post->posts_title = $request->input('title');
+        $post->posts_body = $request->input('body');
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Post created!');
     }
 
     /**
@@ -66,7 +78,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -78,7 +91,19 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //CRIA REGRAS PARA A VALIDAÇÂO
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $post = Post::find($id);
+        // INSERE NO BANCO USANDO O TINKER
+        $post->posts_title = $request->input('title');
+        $post->posts_body = $request->input('body');
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Post updated!');
     }
 
     /**
@@ -89,6 +114,8 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        return redirect('/posts')->with('success', 'Post removed!');
     }
 }
