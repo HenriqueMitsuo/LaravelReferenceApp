@@ -52,6 +52,7 @@ class PostsController extends Controller
         // INSERE NO BANCO USANDO O TINKER
         $post->posts_title = $request->input('title');
         $post->posts_body = $request->input('body');
+        $post->user_id = auth()->user()->id;
         $post->save();
 
         return redirect('/posts')->with('success', 'Post created!');
